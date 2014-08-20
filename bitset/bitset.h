@@ -3,70 +3,70 @@
      
 /*
  * Arbitrary-size aligned bit set. No easier/cleaner way to do this if I can't use std::bitset or Boost?
- * Has manual control of which type you want to use for storage if you want to reduce the number of redundant bits.
+ * Has manual controlover which type you want to use for storage if you want to reduce the number of redundant bits.
  *
  * Originally posted on http://pastebin.com/nuFDD91w
  *
  */
-    template<typename storageType, size_t numBits> class BitSet
+template<typename storageType, size_t numBits> class BitSet
+{
+public:
+    BitSet()
     {
-    public:
-        BitSet()
-        {
-            ClearAll();
-        }
+        ClearAll();
+    }
      
-        void ClearAll()
+    void ClearAll()
+    {
+        for (size_t i = 0; i < BS_NUM_ELEM; ++i)
         {
-            for (size_t i = 0; i < BS_NUM_ELEM; ++i)
+            m_bits[i] = 0;
+        }
+    }
+     
+    // set bit value
+    void Set(size_t bitNo)
+    {
+        for (size_t i = 0; i < BS_NUM_ELEM; ++i)
+        {
+            if (bitNo < (i + 1) * sizeof(storageType) * 8)
             {
-                m_bits[i] = 0;
+                m_bits[i] |= ((storageType)0x01 << (bitNo - i * sizeof(storageType) * 8));
+                break;
             }
         }
+    }
      
-        // set bit value
-        void Set(size_t bitNo)
+    // clear bit value
+    void Clear(size_t bitNo)
+    {
+        for (size_t i = 0; i < BS_NUM_ELEM; ++i)
         {
-            for (size_t i = 0; i < BS_NUM_ELEM; ++i)
+            if (bitNo < (i + 1) * sizeof(storageType) * 8)
             {
-                if (bitNo < (i + 1) * sizeof(storageType) * 8)
-                {
-                    m_bits[i] |= ((storageType)0x01 << (bitNo - i * sizeof(storageType) * 8));
-                    break;
-                }
+                m_bits[i] &= ~((storageType)0x01 << (bitNo - i * sizeof(storageType) * 8));
+                break;
             }
         }
+    }
      
-        // clear bit value
-        void Clear(size_t bitNo)
+    // access bit value
+    bool operator[](size_t bitNo)
+    {
+        for (size_t i = 0; i < BS_NUM_ELEM; ++i)
         {
-            for (size_t i = 0; i < BS_NUM_ELEM; ++i)
+            if (bitNo < (i + 1) * sizeof(storageType) * 8)
             {
-                if (bitNo < (i + 1) * sizeof(storageType) * 8)
-                {
-                    m_bits[i] &= ~((storageType)0x01 << (bitNo - i * sizeof(storageType) * 8));
-                    break;
-                }
+                return ((m_bits[i] >> (bitNo - i * sizeof(storageType) * 8)) & 0x01) && 0x01;
             }
         }
-     
-        // access bit value
-        bool operator[](size_t bitNo)
-        {
-            for (size_t i = 0; i < BS_NUM_ELEM; ++i)
-            {
-                if (bitNo < (i + 1) * sizeof(storageType) * 8)
-                {
-                    return ((m_bits[i] >> (bitNo - i * sizeof(storageType) * 8)) & 0x01) && 0x01;
-                }
-            }
                
-            return false;
-        }
+        return false;
+    }
      
-    private:
-        storageType m_bits[BS_NUM_ELEM];
-    };
+private:
+    storageType m_bits[BS_NUM_ELEM];
+};
      
 
  /*
