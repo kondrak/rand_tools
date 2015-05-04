@@ -3,7 +3,7 @@
      
 /*
  * Arbitrary-size aligned bit set. No easier/cleaner way to do this if I can't use std::bitset or Boost?
- * Has manual controlover which type you want to use for storage if you want to reduce the number of redundant bits.
+ * Has manual control over which type you want to use for storage if you want to reduce the number of redundant bits.
  *
  * Originally posted on http://pastebin.com/nuFDD91w
  *
