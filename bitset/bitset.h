@@ -74,7 +74,7 @@ private:
      
     BitSet<unsigned long long, 104> bv;  // create an "aligned" 128 bit set stored in two ULL variables.
      
-    printf("%d", sizeof(bv);  // 16 bytes/128 bits
+    printf("%d", sizeof(bv));  // 16 bytes/128 bits
      
     bv.Set(24);  // set bit 24
     bv.Set(103);  // set bit 103
