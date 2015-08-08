@@ -4,9 +4,10 @@
 ;---|*|--------------------====< VESA Sound Include >====--------------------
 ;---|*|
 ;---|*| Copyright (c) 1993,1994  V.E.S.A, Inc. All Rights Reserved.
+;---|*| Borland Turbo C++ adaptation (c) 2015 Krzysztof Kondrak
 ;---|*|
 ;---|*| VBE/AI 1.0 Specification
-;---|*|    February 2, 1994. 1.00 release
+;---|*|February 2, 1994. 1.00 release
 ;---|*|
 ;---|*| Additional Changes:
 ;---|*|   03/03 - Added the full list of Volume feature bit as #defines
@@ -17,7 +18,7 @@
 
 ;   /*\
 ;---|*|----====< VESA Services Definitions >====----
-;   \*/
+ ;   \*/
 
 #define INTHOOK     0x0010
 
@@ -42,7 +43,7 @@
 #define VESAQUERY5  0x0005    // get length of Volume Services Structure
 #define VESAQUERY6  0x0006    // get copy   of Volume Services Structure
 #define VESAENDQUERY    0x000f    // subfunctions 6 - 15 are reserved
-                  // subfunctions 16+ are used by the devices
+// subfunctions 16+ are used by the devices
 ;   // VAI Device types
 
 #define WAVDEVICE   0x0001
@@ -57,31 +58,31 @@
 ;---|*|----====< Volume Services >====----
 ;   \*/
 
-    typedef struct {
+typedef struct {
 
-        // housekeeping
+    // housekeeping
 
-        char viname[4];     // name of the structure
-        long vilength;      // structure length
+    char viname[4];     // name of the structure
+    long vilength;      // structure length
 
-        // hardware vendor name
+    // hardware vendor name
 
-        long viversion;     // driver software version
-        char vivname[32];       // vendor name, etc.
-        char viprod[32];        // vendor product name
-        char vichip[32];        // vendor chip/hardware description
-        char viboardid;     // installed board #
-        char viunused[3];       // unused data
+    long viversion;     // driver software version
+    char vivname[32];       // vendor name, etc.
+    char viprod[32];        // vendor product name
+    char vichip[32];        // vendor chip/hardware description
+    char viboardid;     // installed board #
+    char viunused[3];       // unused data
 
-        char vicname[24];       // mixer channel name
+    char vicname[24];       // mixer channel name
 
-        long vifeatures;
+    long vifeatures;
 
-        int  vimin;         // minimum volume setting
-        int  vimax;         // maximum volume setting
-        int  vicross;       // attenuation/gain crossover
+    int  vimin;         // minimum volume setting
+    int  vimax;         // maximum volume setting
+    int  vicross;       // attenuation/gain crossover
 
-    } VolumeInfo, far *fpVolInfo;
+} VolumeInfo, far *fpVolInfo;
 
 ;  // Volume feature bits
 
@@ -111,25 +112,25 @@
 ;---|*|----====< Volume services Structure >====----
 ;   \*/
 
-    typedef struct {
+typedef struct {
 
-        // housekeeping
+    // housekeeping
 
-        char vsname[4];     // name of the structure
-        long vslength;      // structure length
+    char vsname[4];     // name of the structure
+    long vslength;      // structure length
 
-        char vsfuture[16];      // 16 bytes for future expansion
+    char vsfuture[16];      // 16 bytes for future expansion
 
-        long (pascal far *vsDeviceCheck  ) ( int, long );
-        long (pascal far *vsSetVolume    ) ( int, int, int );
-        long (pascal far *vsSetFieldVol  ) ( int, int, int );
-        int  (pascal far *vsToneControl  ) ( int, int, int, int );
-        long (pascal far *vsFilterControl) ( int, int, int );
-        void (pascal far *vsOutputPath   ) ( int );
-        void (pascal far *vsResetChannel ) ( void );
-        int  (pascal far *vsGetLastError ) ( void );
+    long(pascal far *vsDeviceCheck) (int, long);
+    long(pascal far *vsSetVolume) (int, int, int);
+    long(pascal far *vsSetFieldVol) (int, int, int);
+    int(pascal far *vsToneControl) (int, int, int, int);
+    long(pascal far *vsFilterControl) (int, int, int);
+    void(pascal far *vsOutputPath) (int);
+    void(pascal far *vsResetChannel) (void);
+    int(pascal far *vsGetLastError) (void);
 
-    } VolumeService, far *fpVolServ;
+} VolumeService, far *fpVolServ;
 
 ;   // VOL SetVolume message
 
@@ -147,34 +148,34 @@
 ;---|*|----====< WAVE Info Structure >====----
 ;   \*/
 
-        typedef struct {
+typedef struct {
 
-            // housekeeping
+    // housekeeping
 
-        char winame[4];     // name of the structure
-        long wilength;      // structure length
+    char winame[4];     // name of the structure
+    long wilength;      // structure length
 
-        // hardware vendor name
+    // hardware vendor name
 
-        long wiversion;     // driver software version
-        char wivname[32];       // vendor name, etc. (ASCIIZ string)
-        char wiprod[32];        // vendor product name
-        char wichip[32];        // vendor chip/hardware description
-        char wiboardid;     // installed board #
-        char wiunused[3];       // unused data
+    long wiversion;     // driver software version
+    char wivname[32];       // vendor name, etc. (ASCIIZ string)
+    char wiprod[32];        // vendor product name
+    char wichip[32];        // vendor chip/hardware description
+    char wiboardid;     // installed board #
+    char wiunused[3];       // unused data
 
-            // device specific information
+    // device specific information
 
-        long wifeatures;        // feature bits
-        int  widevpref;     // user determined preference field
-            int  wimemreq;              // memory required for driver use.
-        int  witimerticks;      // # of timer tick callbacks per second
+    long wifeatures;        // feature bits
+    int  widevpref;     // user determined preference field
+    int  wimemreq;              // memory required for driver use.
+    int  witimerticks;      // # of timer tick callbacks per second
 
-        int  wiChannels;        // 1 = mono, 2 = stereo. Stereo is
-                    // assumed to be interleaved data.
-        int  wiSampleSize;      // Bit field of max sample sizes
+    int  wiChannels;        // 1 = mono, 2 = stereo. Stereo is
+    // assumed to be interleaved data.
+    int  wiSampleSize;      // Bit field of max sample sizes
 
-    } WAVEInfo, far *fpWAVInfo;
+} WAVEInfo, far *fpWAVInfo;
 
 ;   // WAVE feature bit definitions
 
@@ -252,40 +253,40 @@
 ;   //  the application. The only two fields the application can write
 ;   //  are the callback fields.
 
-    typedef struct {
+typedef struct {
 
-        // housekeeping
+    // housekeeping
 
-        char wsname[4];     // name of the structure
-        long wslength;      // structure length
+    char wsname[4];     // name of the structure
+    long wslength;      // structure length
 
-        char wsfuture[16];      // 16 bytes for future expansion
+    char wsfuture[16];      // 16 bytes for future expansion
 
-        // device driver functions
+    // device driver functions
 
-        long (pascal far *wsDeviceCheck   ) ( int, long );
-        long (pascal far *wsPCMInfo       ) ( int, long, int, int, int );
-        int  (pascal far *wsPlayBlock     ) ( int, long );
-        int  (pascal far *wsPlayCont      ) ( void far *, long, long );
+    long(pascal far *wsDeviceCheck) (int, long);
+    long(pascal far *wsPCMInfo) (int, long, int, int, int);
+    int(pascal far *wsPlayBlock) (int, long);
+    int(pascal far *wsPlayCont) (void far *, long, long);
 
-        int  (pascal far *wsRecordBlock   ) ( int, long );
-        int  (pascal far *wsRecordCont    ) ( void far *, long, long );
-        int  (pascal far *wsPauseIO       ) ( int );
-        int  (pascal far *wsResumeIO      ) ( int );
+    int(pascal far *wsRecordBlock) (int, long);
+    int(pascal far *wsRecordCont) (void far *, long, long);
+    int(pascal far *wsPauseIO) (int);
+    int(pascal far *wsResumeIO) (int);
 
-        int  (pascal far *wsStopIO        ) ( int );
-        int  (pascal far *wsWavePrepare   ) ( int,int,int,void far *,long );
-        int  (pascal far *wsWaveRegister  ) ( void huge *,long );
+    int(pascal far *wsStopIO) (int);
+    int(pascal far *wsWavePrepare) (int, int, int, void far *, long);
+    int(pascal far *wsWaveRegister) (void huge *, long);
 
-        int  (pascal far *wsGetLastError  ) ( void );
-        void (pascal far *wsTimerTick     ) ( void );
+    int(pascal far *wsGetLastError) (void);
+    void(pascal far *wsTimerTick) (void);
 
-        // callback filled in by the application
+    // callback filled in by the application
 
-        void (pascal far *wsApplPSyncCB ) ( int, void far *, long, long ); //play
-        void (pascal far *wsApplRSyncCB ) ( int, void far *, long, long ); //rec
+    void(pascal far *wsApplPSyncCB) (int, void far *, long, long); //play
+    void(pascal far *wsApplRSyncCB) (int, void far *, long, long); //rec
 
-    } WAVEService, far *fpWAVServ;
+} WAVEService, far *fpWAVServ;
 
 ;   // error messages
 
@@ -302,34 +303,34 @@
 ;---|*|----====< MIDI Info Structure >====----
 ;   \*/
 
-    typedef struct {
+typedef struct {
 
-        // housekeeping
+    // housekeeping
 
-        char miname[4];     // name of the structure
-        long milength;      // structure length
+    char miname[4];     // name of the structure
+    long milength;      // structure length
 
-        // hardware vendor name
+    // hardware vendor name
 
-        long miversion;     // driver software version
-        char mivname[32];       // vendor name, etc. (ASCIIZ string)
-        char miprod[32];        // vendor product name
-        char michip[32];        // vendor chip/hardware description
-        char miboardid;     // installed board #
-        char miunused[3];       // unused data
+    long miversion;     // driver software version
+    char mivname[32];       // vendor name, etc. (ASCIIZ string)
+    char miprod[32];        // vendor product name
+    char michip[32];        // vendor chip/hardware description
+    char miboardid;     // installed board #
+    char miunused[3];       // unused data
 
-        char milibrary[14];     // the patch library name. file name
-                    // only - 8 name char, 3 ext char
-        // Feature list
+    char milibrary[14];     // the patch library name. file name
+    // only - 8 name char, 3 ext char
+    // Feature list
 
-        long mifeatures;        // feature bits
-        int  midevpref;     // user determined preference field
-        int  mimemreq;      // memory required for driver use
-        int  mitimerticks;      // # of timer tick callbacks per second
+    long mifeatures;        // feature bits
+    int  midevpref;     // user determined preference field
+    int  mimemreq;      // memory required for driver use
+    int  mitimerticks;      // # of timer tick callbacks per second
 
-        int  miactivetones;     // max # of tones (voices/partials/etc)
+    int  miactivetones;     // max # of tones (voices/partials/etc)
 
-    } MIDIInfo, far *fpMIDInfo;
+} MIDIInfo, far *fpMIDInfo;
 
 ;   // MIDI feature bits
 
@@ -367,37 +368,37 @@
 ;---|*|----====< MIDI Audio Services Structure >====----
 ;   \*/
 
-    // Synthesizer Services Structure
+// Synthesizer Services Structure
 
-    typedef struct {
+typedef struct {
 
-         // housekeeping
+    // housekeeping
 
-         char msname[4];        // name of the structure
-         long mslength;     // structure length
+    char msname[4];        // name of the structure
+    long mslength;     // structure length
 
-         // runtime data
+    // runtime data
 
-         int  mspatches[16];    // patches loaded table bit field
-         char msfuture[16];     // 16 bytes for future expansion
+    int  mspatches[16];    // patches loaded table bit field
+    char msfuture[16];     // 16 bytes for future expansion
 
-         // device driver functions
+    // device driver functions
 
-         long ( pascal far *msDeviceCheck  ) ( int, long );
-         int  ( pascal far *msGlobalReset  ) ( void );
-         int  ( pascal far *msMIDImsg      ) ( char far *, int );
-         void ( pascal far *msPollMIDI     ) ( int );
-         int  ( pascal far *msPreLoadPatch ) ( int, int, void far *, long );
-         int  ( pascal far *msUnloadPatch  ) ( int, int );
-         void ( pascal far *msTimerTick    ) ( void );
-         int  ( pascal far *msGetLastError ) ( void );
+    long(pascal far *msDeviceCheck) (int, long);
+    int(pascal far *msGlobalReset) (void);
+    int(pascal far *msMIDImsg) (char far *, int);
+    void(pascal far *msPollMIDI) (int);
+    int(pascal far *msPreLoadPatch) (int, int, void far *, long);
+    int(pascal far *msUnloadPatch) (int, int);
+    void(pascal far *msTimerTick) (void);
+    int(pascal far *msGetLastError) (void);
 
-         // callbacks filled in by the application
+    // callbacks filled in by the application
 
-         void ( pascal far *msApplFreeCB ) ( int, int, void far *, long );
-         void ( pascal far *msApplMIDIIn ) ( int, int, char, long );
+    void(pascal far *msApplFreeCB) (int, int, void far *, long);
+    void(pascal far *msApplMIDIIn) (int, int, char, long);
 
-    } MIDIService, far *fpMIDServ;
+} MIDIService, far *fpMIDServ;
 
 #define MID_NOSUPPORT       0x01    // unsupported feature/function
 #define MID_UNKNOWNPATCH    0x02    // unknown patch type
@@ -419,66 +420,66 @@
 ;   //  for the application. There are no fields that the application
 ;   //  may modify.
 
-    typedef struct {
+typedef struct {
 
-        // housekeeping...
+    // housekeeping...
 
-        char gdname[4];     // name of the structure
-        long gdlength;      // structure length
+    char gdname[4];     // name of the structure
+    long gdlength;      // structure length
 
-        // generalities...
+    // generalities...
 
-        int  gdclassid;     // type of device
-        int  gdvbever;      // version of VESA driver support
+    int  gdclassid;     // type of device
+    int  gdvbever;      // version of VESA driver support
 
-        union {
+    union {
         WAVEInfo   gdwi;
         MIDIInfo   gdmi;
         VolumeInfo gdvi;
-        } u;
+    } u;
 
-    } GeneralDeviceClass, far *fpGDC;
+} GeneralDeviceClass, far *fpGDC;
 
 
 ;   /*\
 ;---|*|----====< VBE/AI data structures >====----
 ;   \*/
 
-    //
-    // patch file format structures
-    //
+//
+// patch file format structures
+//
 
-        typedef struct {
-        char type[4];   // structure type holds "RIFF"
-        long rcount;    // length of the RIFF block
-    } RIFFhdr;
+typedef struct {
+    char type[4];   // structure type holds "RIFF"
+    long rcount;    // length of the RIFF block
+} RIFFhdr;
 
-        typedef struct {
-        char type[4];   // structure type holds "vail"
-        long pcount;    // count of patches in the file
-    } VAILhdr;
+typedef struct {
+    char type[4];   // structure type holds "vail"
+    long pcount;    // count of patches in the file
+} VAILhdr;
 
-        typedef struct {
-        char type[4];   // structure type holds "ZSTR"
-        long tlen;      // length of text following this field
-    } ZSTRhdr;
+typedef struct {
+    char type[4];   // structure type holds "ZSTR"
+    long tlen;      // length of text following this field
+} ZSTRhdr;
 
-        typedef struct {
-        char type[4];   // structure type holds "vaip"
-        long vaiplen;   // VBE/AI Patch data table
-    } VAIPhdr;
+typedef struct {
+    char type[4];   // structure type holds "vaip"
+    long vaiplen;   // VBE/AI Patch data table
+} VAIPhdr;
 
-        typedef struct {
-        char type[4];   // structure type holds "vaii", index
-        long vaiilen;   // vaii structure length
-        long poffset;   // holds offset to "vaid" from "vaip"
-        long vaidln;    // holds length of the corresponding patch
-    } VAIIhdr;
+typedef struct {
+    char type[4];   // structure type holds "vaii", index
+    long vaiilen;   // vaii structure length
+    long poffset;   // holds offset to "vaid" from "vaip"
+    long vaidln;    // holds length of the corresponding patch
+} VAIIhdr;
 
-        typedef struct {
-        char type[4];   // structure type holds "vaid"
-        long vaidlen;   // holds length of this patch
-    } VAIDhdr;
+typedef struct {
+    char type[4];   // structure type holds "vaid"
+    long vaidlen;   // holds length of this patch
+} VAIDhdr;
 
 
 ;   /*\
