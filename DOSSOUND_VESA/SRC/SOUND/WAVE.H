@@ -4,10 +4,10 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-    int SetupWAVDriver(void);
+    int  SetupWAVDriver(void);
     
     void PlayWAV(int);
-    int LoadWAV(const char*);
+    int  LoadWAV(const char*);
     void ShutdownWAV(void);
 #ifdef __cplusplus
 }
