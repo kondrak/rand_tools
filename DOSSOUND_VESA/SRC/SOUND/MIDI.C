@@ -183,22 +183,12 @@ static int  VersionControl = 0x0100;
 
 int SetupMIDIDriver()
 {
-    int n;
     // Find one MIDI device
     if (!OpenTheDriver(UserPref)) { // get the driver the user prefer
         printf("Cannot find any installed VBE/AI devices! (Did you run OPL2.COM?)\n");
         return 0;
     }
 
-    for (n = 0; n < mhdr.ftracks; n++) {
-        mtrk[n].p = midptr;
-        LoadMIDITrack(&mtrk[n]);
-        midptr += mtrk[n].mt.flen;              // get the next ptr
-        mtrk[n].delta = ReadVariable(&mtrk[n]); // read the 1st delta from the file
-    }
-    
-    deltacount = 0;      
-    
     // setup a callback for active system messages
     VESARegisterTimer(254, &OurSystemMSGCallBack, VESARateToDivisor(5));
     VESARegisterTimer(255, &OurTimerCallBack, VESARateToDivisor(120));
@@ -1069,7 +1059,17 @@ int LoadMIDI(const char *filename)
     if (mhdr.ftracks > MAXTRACKS) {
         printf("WARNING: %s file has too many tracks!\n", filename);
         mhdr.ftracks = MAXTRACKS;   // limit it to MAXTRACKS tracks
-    } 
+    }
+
+    for (n = 0; n < mhdr.ftracks; n++) {
+        mtrk[n].p = midptr;
+        LoadMIDITrack(&mtrk[n]);
+        midptr += mtrk[n].mt.flen;              // get the next ptr
+        mtrk[n].delta = ReadVariable(&mtrk[n]); // read the 1st delta from the file
+    }
+    
+    deltacount = 0;    
+    fclose(rfile);
     
     return 1;
 }

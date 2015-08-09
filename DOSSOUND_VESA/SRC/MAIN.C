@@ -16,8 +16,18 @@ int main()
     unsigned short *keysPressed = translateInput();
 
     printf("\n\n*** Press keys 1-5 to play sound ***\n\n");
-        
+
+    // setup drivers
+    if (!SetupWAVDriver())
+        Shutdown(1);     
+    
+    if (!SetupMIDIDriver())
+        Shutdown(1);        
+
     // load files
+    if (!LoadMIDI("sfx/doom.mid"))
+        Shutdown(1);        
+        
     if (!LoadWAV("sfx/sfx1.wav"))
         Shutdown(1);
 
@@ -33,15 +43,8 @@ int main()
     if (!LoadWAV("sfx/sfx5.wav"))
         Shutdown(1);   
 
-    if (!LoadMIDI("sfx/doom.mid"))
-        Shutdown(1);
-
-    // setup drivers
-    if (!SetupWAVDriver())
-        Shutdown(1);
-
-    if (!SetupMIDIDriver())
-        Shutdown(1);
+       
+       
 
     // main loop
     while (!keysPressed[KEY_ESC])

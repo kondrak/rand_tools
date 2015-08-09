@@ -132,10 +132,6 @@ int SetupWAVDriver()
         return 0;
     }
 
-    // Register all the blocks
-    for (n = 0; n < MaxWaves; n++)
-        Waves[n].han = (wfnWAV->wsWaveRegister) (Waves[n].ptr, Waves[n].len);
-
     return 1;
 }
 
@@ -216,6 +212,9 @@ int LoadWAV(const char *filename)
     ReadBlockWAV(fileno(rfileWAV), Waves[MaxWaves].ptr, (int)Waves[MaxWaves].len);
 
     fclose(rfileWAV);
+
+    // register WAV blocks
+    Waves[MaxWaves].han = (wfnWAV->wsWaveRegister) (Waves[MaxWaves].ptr, Waves[MaxWaves].len);
     MaxWaves++;
     
     return 1;
