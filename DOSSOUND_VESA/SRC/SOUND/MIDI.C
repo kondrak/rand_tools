@@ -183,6 +183,7 @@ static int  VersionControl = 0x0100;
 
 int SetupMIDIDriver()
 {
+    int n;
     // Find one MIDI device
     if (!OpenTheDriver(UserPref)) { // get the driver the user prefer
         printf("Cannot find any installed VBE/AI devices! (Did you run OPL2.COM?)\n");
@@ -193,6 +194,9 @@ int SetupMIDIDriver()
     VESARegisterTimer(254, &OurSystemMSGCallBack, VESARateToDivisor(5));
     VESARegisterTimer(255, &OurTimerCallBack, VESARateToDivisor(120));
 
+    for (n=0;n<256;n++)
+        PatchXlate[n] = n & 0x7F;   // only 7 bits worth    
+    
     return 1;
 }
 
