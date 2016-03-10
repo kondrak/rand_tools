@@ -1,6 +1,6 @@
 Random programming tools
 =========
-Some of my useful, loosely related/unrelated pieces of code.
+Some of my useful, loosely related pieces of code.
 
 - <code>DOSSOUND_VESA</code> - VESA based DOS player for MIDI and WAV files.
 - <code>bitset</code>        - Customizable bitset template class for platforms where std::bitset/Boost can't be used. 
